@@ -1,0 +1,17 @@
+library(dplyr)
+library(lubridate)
+hpc<-read.table("C:/Users/185384/Documents/Personal/Self Learning/R/BasePlot/household_power_consumption.txt", sep =";", header = TRUE, stringsAsFactors = FALSE)
+hpc <- filter(hpc, Date %in% c("1/2/2007", "2/2/2007"))
+hpc <- mutate(hpc, date_time = dmy_hms(paste(Date,Time)) )
+hpc<-mutate(hpc,Global_active_power= as.numeric(Global_active_power))
+hpc<-mutate(hpc,Sub_metering_1= as.numeric(Sub_metering_1))
+hpc<-mutate(hpc,Sub_metering_2= as.numeric(Sub_metering_2))
+hpc<-mutate(hpc,Sub_metering_3= as.numeric(Sub_metering_3))
+png(filename="C:/Users/185384/Documents/Personal/Self Learning/R/BasePlot/plot3.png",width = 480 , height = 480 )
+plot(hpc$date_time,hpc$Sub_metering_1, type = "l", xlab = "", ylab ="Energy Sub Metering")
+lines(hpc$date_time,hpc$Sub_metering_2,col = "red")
+lines(hpc$date_time,hpc$Sub_metering_3,col = "blue")
+legend("topright",lty = 1, lwd = 2, col = c("black", "red","blue"), legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+dev.off()
+
+
